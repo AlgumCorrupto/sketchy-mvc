@@ -9,14 +9,21 @@
 #include "../views/abstract.h"
 #include "../models/abstract.h"
 #include "../controllers/abstract.h"
+#include "../views/layouts/layout.h"
 #include "typeName.h"
+
+template<typename T>
+struct DefaultView {};
 
 class AppManager {
 public:
-    AppManager() {
+    template<typename _DefaultView>
+    AppManager(DefaultView<_DefaultView>) {
         initModels();
         initControllers();
         initViews();
+        layout = &getView<LayoutView>();
+        currentView = &getView<_DefaultView>();
     }
 
     // Create and store all vies registered
@@ -39,16 +46,21 @@ public:
     template<typename T>
     T& getView();
 
-private:
-    // Helper for getting type name as string (using RTTI)
-    //template<typename T>
-    //static std::string typeName() {
-    //    return typeid(T).name();
-    //}
+    void render() { layout->render(tick++); }
+    void update() { currentView->update(); }
 
+    IView& getCurrentView() {
+        if (!currentView) throw std::runtime_error("Current view not set");
+        return *currentView;
+    }
+
+private:
     std::unordered_map<std::string, std::unique_ptr<IModel>> models;
     std::unordered_map<std::string, std::unique_ptr<IController>> controllers;
     std::unordered_map<std::string, std::unique_ptr<IView>> views;
+    IView* currentView;
+    IView* layout;
+    int tick = 0;
 };
 
 template<typename T>

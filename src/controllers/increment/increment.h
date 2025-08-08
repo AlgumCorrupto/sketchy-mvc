@@ -1,7 +1,7 @@
 #pragma once
 
-#include "abstract.h"
-#include "../model.h"
+#include "../abstract.h"
+#include "../../model.h"
 
 class AppManager;
 

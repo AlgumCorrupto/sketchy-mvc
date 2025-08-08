@@ -13,6 +13,7 @@
 void AppManager::initViews() {
    for (auto& [name, factory] : ViewRegistry::instance().getFactories()) {
        auto view = factory(*this);
+       view->init();
        views[name] = std::move(view);
    }
 }
@@ -29,29 +30,3 @@ void AppManager::initControllers() {
         controllers[name] = std::move(controller);
     }
 }
-//template<typename T>
-//T& AppManager::getModel() {
-//    auto it = models.find(typeName<T>());
-//    if (it == models.end()) {
-//        throw std::runtime_error("Model not found: " + typeName<T>());
-//    }
-//    return *static_cast<T*>(it->second.get());
-//}
-//
-//template<typename T>
-//T& AppManager::getController() {
-//    auto it = controllers.find(typeName<T>());
-//    if (it == controllers.end()) {
-//        throw std::runtime_error("Controller not found: " + typeName<T>());
-//    }
-//    return *static_cast<T*>(it->second.get());
-//}
-//
-//template<typename T>
-//T& AppManager::getView() {
-//    auto it = views.find(typeName<T>());
-//    if (it == views.end()) {
-//        throw std::runtime_error("View not found: " + typeName<T>());
-//    }
-//    return *static_cast<T*>(it->second.get());
-//}

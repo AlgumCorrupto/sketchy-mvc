@@ -1,9 +1,11 @@
 #pragma once
+
 #include <unordered_map>
 #include <string>
 #include <memory>
 #include <functional>
 #include "../managers/typeName.h"
+
 class AppManager;
 
 class IView {
@@ -11,8 +13,9 @@ public:
     IView(AppManager& manager) : manager(manager) {}
     ~IView() = default;
 
-    virtual void render() = 0;
+    virtual void render(int el) = 0;
     virtual void update() = 0;
+    virtual void init() = 0;
 protected:
     AppManager& manager;
 };

@@ -13,8 +13,9 @@ int main(int argc, char const** argv)
     const int screenWidth = 800;
     const int screenHeight = 450;
 
+    SetTraceLogLevel(LOG_NONE);
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - 3d camera free");
+    InitWindow(screenWidth, screenHeight, "Sketchy MVC");
 
     // Define the camera to look into our 3d world
     Camera3D camera = { 0 };
@@ -63,18 +64,19 @@ int main(int argc, char const** argv)
     Texture2D texture = LoadTextureFromImage(image);
     io->Fonts->TexID = (void*)(&texture.id);
     //--------------------------------------------------------------------------------------
-    
+
     // MVC Initialization
     //--------------------------------------------------------------------------------------
-    AppManager app;
-    auto& view = app.getView<IncrementView>();
-
+    AppManager app = AppManager(DefaultView<IncrementView>{});
     // Main game loop
     while (!WindowShouldClose())        // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
         UpdateCamera(&camera, CAMERA_ORBITAL);          // Update camera
+        app.update();                                   // Update app
+        //--------------------------------------------------------------------------------------
+
 
         // Imgui start drawing
         //--------------------------------------------------------------------------------------
@@ -91,17 +93,14 @@ int main(int argc, char const** argv)
 
             // Imgui widgets
             //--------------------------------------------------------------------------------------
-  
-            view.render();
+            app.render();
             //--------------------------------------------------------------------------------------
-          
+
             // Imgui end drawing
             //--------------------------------------------------------------------------------------
             ImGui::Render();
             raylib_render_imgui(ImGui::GetDrawData());
             //--------------------------------------------------------------------------------------
-
-
         EndDrawing();
         //----------------------------------------------------------------------------------
     }

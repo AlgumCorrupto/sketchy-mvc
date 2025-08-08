@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract.h"
+#include "../abstract.h"
 
 class IncrementModel : public IModel {
 public:

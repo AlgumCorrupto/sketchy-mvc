@@ -1,4 +1,4 @@
-#include "../manager.h"
+#include "../../manager.h"
 #include "increment.h"
 void IncrementController::increment() {incModel->increment();}
 void IncrementController::decrement() {incModel->decrement();}
