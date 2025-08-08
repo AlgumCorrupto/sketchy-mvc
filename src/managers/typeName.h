@@ -3,11 +3,10 @@
 #include <string>
 #include <typeinfo>
 
-// Primary template fallback (optional)
 template<typename T>
 struct TypeName {
     static std::string get() {
-        return typeid(T).name(); // fallback, avoid if possible
+        return typeid(T).name();
     }
 };
 
